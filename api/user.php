@@ -44,10 +44,9 @@ class User{
   function login($json){
     include "connection-pdo.php";
 
-    $decodedJson = json_decode($json, true);
-    $username = $decodedJson["username"];
-    $password = $decodedJson["password"];
-
+    $json = json_decode($json, true);
+    $username = $json["username"];
+    $password = $json["password"];
   
     $sql = "SELECT usr_id, usr_username, usr_fullname FROM tblusers ";
     $sql .= " WHERE usr_username=:username AND usr_password = :password";
@@ -59,8 +58,7 @@ class User{
     if($stmt->rowCount() > 0){
       $returnValue = $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    $stmt = null;
-    $conn = null;
+    $stmt = null;  $conn = null; 
     return json_encode($returnValue);
   }
 }
